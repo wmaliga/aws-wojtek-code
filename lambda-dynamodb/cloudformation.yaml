@@ -1,0 +1,24 @@
+Resources:
+  database:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+      TableName: "DemoTable"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+  lambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: "LambdaDynamoDB"
+      Handler: "app.lambda_handler"
+      Code:
+        S3Bucket: "wojtek-code"
+        S3Key: "lambda-dynamodb/app.zip"
+      Role: "arn:aws:iam::889055510083:role/DynamoDBAccessForLambda"
+      Runtime: "python3.9"
